@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Parallax example</title>
+  </head>
+  <body>
+    <canvas width="1000" height="600"></canvas>
+
+    <script src="build/build.js"></script>
+    <script>
+      var Loader = require('mteam-assets'),
+          Parallax = require('parallax');
+
+      var canvas = document.querySelector('canvas'),
+          ctx = canvas.getContext('2d');
+
+      var assets = new Loader,
+          background = new Parallax(canvas.width, canvas.height);
+
+      var images = {
+        front: assets.get('images/front.png'),
+        back: assets.get('images/back.png')
+      };
+
+      assets.load(function() {
+
+        background.push(images.back.content, 0, -700, 0.5);
+        background.push(images.front.content, 0, -600, 0.70);
+        background.draw(ctx);
+
+      });
+
+      var pos = {
+        x: null,
+        y: null
+      };
+
+      canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+
+        var touch = e.changedTouches[0];
+        pos.x = touch.clientX;
+        pos.y = touch.clientY;
+      });
+
+      canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+
+        var touch = e.changedTouches[0],
+            x = touch.clientX, y = touch.clientY;
+
+        background.move(x - pos.x, y - pos.y);
+        ctx.clearRect(0, 0, 1000, 600);
+        background.draw(ctx);
+
+        pos.x = x;
+        pos.y = y;
+      });
+    </script>
+  </body>
+</html>

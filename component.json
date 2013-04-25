@@ -1,0 +1,11 @@
+{
+  "name": "parallax",
+  "repo": "mteam/parallax",
+  "development": {
+    "mteam/assets": "*"
+  },
+  "scripts": [
+    "index.js",
+    "layer.js"
+  ]
+}
